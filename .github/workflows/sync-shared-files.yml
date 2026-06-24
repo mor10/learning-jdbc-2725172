@@ -4,24 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       source-branch:
-        description: "Branch to copy files FROM (blank = default branch)"
+        description: "Source branch to copy files from (blank = default branch)"
         required: false
         default: ""
       files:
-        description: "Files/dirs/globs to copy, comma or newline separated (blank = default list)"
+        description: "Comma or newline separated list of files/dirs/globs to copy (blank = default list)"
         required: false
         default: ""
-      mode:
-        description: "How changes are applied (blank = write immediately)"
-        required: false
-        default: push
-        type: choice
-        options: [push, pr]
-      dry-run:
-        description: "Preview changes without writing (blank = no preview)"
-        required: false
-        default: false
-        type: boolean
 
 permissions:
   contents: write       # required for push mode
@@ -31,9 +20,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: LinkedInLearning/lil-update-branches@v1.0.0
+      - uses: LinkedInLearning/lil-update-branches@v1.0.1
         with:
           source-branch: ${{ inputs.source-branch }}
           files: ${{ inputs.files }}
-          mode: ${{ inputs.mode }}
-          dry-run: ${{ inputs.dry-run }}

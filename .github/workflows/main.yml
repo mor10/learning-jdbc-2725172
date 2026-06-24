@@ -1,14 +1,25 @@
-name: Copy To Branches
+name: Sync shared files
+
 on:
   workflow_dispatch:
+  # Optional: run on a schedule
+  # schedule:
+  #   - cron: "0 6 * * 1"   # every Monday 06:00 UTC
+
+permissions:
+  contents: write       # required for push mode
+  pull-requests: write  # required for pr mode
+
 jobs:
-  copy-to-branches:
+  sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: LinkedInLearning/lil-update-branches@v1
         with:
-          fetch-depth: 0
-      - name: Copy To Branches Action
-        uses: planetoftheweb/copy-to-branches@v1.2
-        env:
-          key: main
+          # All inputs are optional; defaults shown below.
+          source-branch: ""            # default: repository default branch
+          files: ""                    # default: see "Default file list"
+          include-branches: "*"
+          exclude-branches: ""
+          mode: push                   # or "pr"
+          dry-run: "false"

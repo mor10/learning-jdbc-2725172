@@ -1,4 +1,3 @@
-version: '3.8'
 volumes:
   postgres-data:
 services:
@@ -18,7 +17,8 @@ services:
     depends_on:
       - db
   db:
-    image: postgres:latest
+    image: postgres:17
+    pull_policy: if_not_present
     restart: unless-stopped
     ports:
       - "5432:5432"
